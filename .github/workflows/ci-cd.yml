@@ -33,32 +33,32 @@ jobs:
           output_location: "{angular.json#Object.values(data.projects)[0].architect.build.options.outputPath}" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
 
-    - name: Checkout repository
-    uses: actions/checkout@v3
-    with:
-    fetch-depth: 0
-    
-    - name: Set up Node.js 21.x
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Node.js 21.x
         uses: actions/setup-node@v3
         with:
-        node-version: '21.x'
+          node-version: '21.x'
 
-    - name: Install Angular CLI
+      - name: Install Angular CLI
         run: npm install -g @angular/cli
 
-    - name: Install dependencies
+      - name: Install dependencies
         run: npm ci
 
-    - name: Install Azure Static Web Apps CLI
+      - name: Install Azure Static Web Apps CLI
         run: npm install -g @azure/static-web-apps-cli
 
-    - name: Build Angular app for Preprod
-        run: ng build --configuration=preprod
+      - name: Build Angular app for Production
+        run: ng build --configuration=prod
 
-    - name: Copy staticwebapp.config.json
+      - name: Copy staticwebapp.config.json
         run: cp staticwebapp.config.json ./dist/guardeep
 
-    - name: Deploy to Azure Static Web App
+      - name: Deploy to Azure Static Web App
         env:
-        DEPLOYMENT_TOKEN: ${{ secrets.DEPLOYMENT_TOKEN }}
+          DEPLOYMENT_TOKEN: ${{ secrets.DEPLOYMENT_TOKEN }}
         run: swa deploy ./dist/guardeep --env production --deployment-token $DEPLOYMENT_TOKEN
