@@ -33,7 +33,7 @@ jobs:
 
     # Étape pour construire l'application Angular avec la configuration prod
     - name: Build Angular app
-      run: ng build --configuration=prod
+      run: ng build
 
     # Étape pour copier la configuration de l'application statique (si nécessaire)
     - name: Copy staticwebapp.config.json
@@ -47,4 +47,4 @@ jobs:
     - name: Deploy to Azure Static Web App
       env:
         AZURE_STATIC_WEB_APPS_API_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-      run: swa deploy ./dist/back_office --env production --deployment-token $AZURE_STATIC_WEB_APPS_API_TOKEN
+      run: swa deploy ./dist/back_office --deployment-token $AZURE_STATIC_WEB_APPS_API_TOKEN
