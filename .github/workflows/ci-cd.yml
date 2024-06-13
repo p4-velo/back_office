@@ -4,7 +4,7 @@ name: Deploy Angular App to Azure Static Web App
 on:
   push:
     branches:
-      - main  # Changez "main" à "preprod" si nécessaire
+      - main  # Changez "mai" à "preprod" si nécessaire
 
 jobs:
   build-and-deploy:
