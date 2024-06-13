@@ -37,7 +37,7 @@ jobs:
 
     # Étape pour copier la configuration de l'application statique (si nécessaire)
     - name: Copy staticwebapp.config.json
-      run: cp staticwebapp.config.json ./dist/back_office
+      run: cp swa-cli.config.json ./dist/back_office
 
     # Étape pour installer le CLI Azure Static Web Apps
     - name: Install Azure Static Web Apps CLI
