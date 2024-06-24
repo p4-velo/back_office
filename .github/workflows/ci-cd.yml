@@ -1,50 +1,47 @@
 name: Deploy Angular App to Azure Static Web App
 
-# Déclenche le workflow à chaque push sur la branche main (ou preprod selon vos besoins)
 on:
   push:
     branches:
-      - main  # Changez "mai" à "preprod" si nécessaire
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    # Étape pour vérifier le code source
+    # Step to check out the source code
     - name: Checkout repository
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
-    # Étape pour installer Node.js
+    # Step to set up Node.js
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '21.x'
 
-    # Étape pour installer Angular CLI globalement
+    # Step to install Angular CLI globally
     - name: Install Angular CLI
       run: npm install -g @angular/cli
 
-    # Étape pour installer les dépendances du projet
+    # Step to install project dependencies
     - name: Install dependencies
       run: npm ci
 
-    # Étape pour construire l'application Angular avec la configuration prod
+    # Step to build the Angular app with prod configuration
     - name: Build Angular app
       run: ng build
 
-    # Étape pour copier la configuration de l'application statique (si nécessaire)
+    # Step to copy the static web app configuration (if necessary)
     - name: Copy staticwebapp.config.json
       run: cp swa-cli.config.json ./dist/back_office
 
-    # Étape pour installer le CLI Azure Static Web Apps
+    # Step to install the Azure Static Web Apps CLI
     - name: Install Azure Static Web Apps CLI
       run: npm install -g @azure/static-web-apps-cli
 
-    # Étape pour déployer l'application sur Azure Static Web Apps
-    - name: Deploy to Azure Static Web App
-      env:
-        AZURE_STATIC_WEB_APPS_API_TOKEN: ${{ env.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-      run: swa deploy ./dist/back_office --deployment-token $AZURE_STATIC_WEB_APPS_API_TOKEN
+    # Step to deploy the app using the Azure Static Web Apps CLI
+    - name: Deploy to Azure Static Web Apps
+      run: swa deploy ./dist/back_office --deployment-token ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
